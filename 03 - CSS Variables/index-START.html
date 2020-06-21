@@ -31,7 +31,7 @@
       background: #193549;
       color: white;
       font-family: 'helvetica neue', sans-serif;
-      font-weight: 100;
+      font-weight: 100; 
       font-size: 50px;
     }
 
@@ -42,9 +42,34 @@
     input {
       width: 100px;
     }
-  </style>
 
+  </style>
+    
   <script>
+    const spacing = document.getElementById("spacing")
+    const blur = document.getElementById("blur")
+    const base = document.getElementById("base")
+    const img = document.querySelectorAll('img')[0]
+    const js = document.querySelector(".hl")
+
+    img.style.border = `${spacing.value}px solid ${base.value}`
+    img.style.filter = `blur(${blur.value}px)`
+    js.style.color = `${base.value}`
+
+    function update() {
+      const spacing_value = spacing.value
+      const blur_value = blur.value
+      const base_value = base.value
+      console.log(spacing_value, blur_value, base_value)
+      img.style.border = `${spacing_value}px solid ${base_value}`
+      img.style.filter = `blur(${blur_value}px)`
+      js.style.color = `${base_value}`
+    }
+    
+    spacing.addEventListener("input", update)
+    base.addEventListener("change", update)
+    blur.addEventListener("input", update)
+    
   </script>
 
 </body>

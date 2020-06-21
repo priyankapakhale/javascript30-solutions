@@ -62,12 +62,45 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform : rotate(180deg);
+      transform-origin: 15rem center;
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
 
   </style>
-
+    
   <script>
+    
+    function updateClock(hour, min, sec) {
+      start = 90
+      hour_angle = start + 30*hour + min*0.5
+      min_angle = start + 6*min + sec*0.1
+      sec_angle = start + 6*sec
 
+      var date = new Date()
+      let hr = date.getHours()
+
+
+      const hour_hand = document.getElementsByClassName('hour-hand')[0]
+      const min_hand = document.getElementsByClassName('min-hand')[0]
+      const sec_hand = document.getElementsByClassName('second-hand')[0]
+
+      hour_hand.style.transform = `rotate(${hour_angle}deg)`
+      min_hand.style.transform = `rotate(${min_angle}deg)`
+      sec_hand.style.transform = `rotate(${sec_angle}deg)`
+
+    }
+
+    function getTime() {
+      time = new Date()
+      hour = time.getHours() % 12
+      min = time.getMinutes()
+      sec = time.getSeconds()
+      updateClock(hour, min, sec)
+    }
+
+    window.setInterval(getTime, 1000)
 
   </script>
 </body>

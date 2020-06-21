@@ -15,8 +15,58 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const ip = document.querySelector(".search")
+  let jsonArray;
+  let output = []
+  fetch(endpoint)
+  .then(response => response.json())
+  .then(data => {
+    jsonArray = data
+  })
 
+  let ul = document.querySelector(".suggestions")
+
+  const updateList = () => {
+    console.log("this")
+    console.log(output)
+    console.log(ul)
+    ul.innerHTML = ""
+    output.forEach(item => {
+      const li = document.createElement("li")
+      li.innerHTML = item
+      console.log(li)
+      ul.appendChild(li)
+    })
+  }
+
+  const refineSearch = () => {
+    let value = ip.value.toLowerCase()
+    output = []
+    const l = value.length
+
+    jsonArray.forEach(place => {
+      let city = `<span>${place.city}</span>`
+      let state = `<span>${place.state}</span>`
+      let found = false
+      if(place.city.toLowerCase().indexOf(value) !== -1) {
+        found = true
+        const index = place.city.toLowerCase().indexOf(value)
+        city = `<span>${place.city.substring(0, index)}<span class="hl">${place.city.substring(index,index+l)}</span>${place.city.substring(index+l,place.city.length)}</span>`
+      }
+      if(place.state.toLowerCase().indexOf(value) !== -1) {
+        found = true
+        const index = place.state.toLowerCase().indexOf(value)
+        city = `<span>${place.state.substring(0, index)}<span class="hl">${place.state.substring(index,index+l)}</span>${place.state.substring(index+l,place.state.length)}</span>`
+      }
+      if(found)
+        output.push(city+", "+state)
+        console.log(output)
+    })
+    updateList()
+  }
+
+  ip.addEventListener("input", refineSearch)
 </script>
 </body>
 </html>
