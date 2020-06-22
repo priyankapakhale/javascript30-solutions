@@ -48,6 +48,8 @@
     jsonArray.forEach(place => {
       let city = `<span>${place.city}</span>`
       let state = `<span>${place.state}</span>`
+      let population = `${Math.floor(place.population/1000)},${place.population%1000}`
+
       let found = false
       if(place.city.toLowerCase().indexOf(value) !== -1) {
         found = true
@@ -60,7 +62,7 @@
         city = `<span>${place.state.substring(0, index)}<span class="hl">${place.state.substring(index,index+l)}</span>${place.state.substring(index+l,place.state.length)}</span>`
       }
       if(found)
-        output.push(city+", "+state)
+        output.push(`<span>${city}, ${state}</span><small>${population}</small>`)
         console.log(output)
     })
     updateList()
